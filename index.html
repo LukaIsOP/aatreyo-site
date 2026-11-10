@@ -1,0 +1,740 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Aatreyo Bhattacharyya</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout concept: an investing notebook. The overview is a profile (photo beside the writing),
+   pitches read as written entries rather than a performance table, and each pitch page keeps
+   its facts in a sticky sidebar next to the write-up. No price charts and no uppercase
+   eyebrow labels. Warm paper, serif headings, mono for figures, one ink-blue accent. */
+:root {
+  color-scheme: light;
+  --paper: #f7f4ee;       /* page background, warm near-white */
+  --ink: #1c1b18;         /* primary text */
+  --muted: #5e594f;       /* secondary text */
+  --faint: #8a8478;       /* footnotes */
+  --rule: #ddd6c8;        /* hairlines between sections */
+  --rule-2: #e9e4d9;      /* hairlines between rows */
+  --accent: #1f3a5f;      /* the single accent */
+  --long: #2c6a4c;        /* positive return */
+  --short: #a33a2c;       /* negative return */
+  --target: var(--accent);
+  --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --gutter: clamp(16px, 4vw, 48px);
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink); font-family: var(--font); font-size: 15.5px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1140px; margin: 0 auto; }
+h1, h2, h3, h4, p, figure, dl, dd { margin: 0; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.12; letter-spacing: -0.01em; text-wrap: balance; }
+a { color: inherit; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+.up { color: var(--long); } .dn { color: var(--short); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Shared 12-column grid; children place themselves with grid-column */
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(16px, 2.4vw, 32px); }
+.grid > * { min-width: 0; }
+
+/* ---------- Header: name left, plain text links right ---------- */
+header.top { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 24px 0 16px; border-bottom: 1px solid var(--rule); }
+.me { font-family: var(--serif); font-size: 19px; font-weight: 600; text-decoration: none; }
+nav.top-nav { display: flex; gap: 24px; }
+nav.top-nav a { font-size: 14px; color: var(--muted); text-decoration: none; }
+nav.top-nav a:hover { color: var(--ink); }
+nav.top-nav a[aria-current="page"] { color: var(--ink); font-weight: 600; }
+@media (max-width: 480px) { .me { font-size: 17px; white-space: nowrap; } nav.top-nav { gap: 16px; } }
+
+/* ---------- Pages ---------- */
+.page[hidden] { display: none !important; }
+.page { padding-top: clamp(32px, 5vw, 64px); }
+
+/* ---------- Overview: photo on the left, everything you read on the right ---------- */
+.profile { align-items: start; }
+.portrait { grid-column: 1 / 5; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 2px; position: sticky; top: 24px; }
+.portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.profile-text { grid-column: 6 / 12; }
+.profile-text .school { font-size: 14px; color: var(--muted); }
+.profile-text h1 { margin-top: 10px; font-size: clamp(38px, 5vw, 60px); letter-spacing: -0.02em; line-height: 1.04; }
+.profile-text .dek { margin-top: 18px; font-family: var(--serif); font-size: clamp(19px, 1.9vw, 22px); line-height: 1.45; font-style: normal; max-width: 44ch; }
+.prose { margin-top: 30px; padding-top: 26px; border-top: 1px solid var(--rule); max-width: 62ch; }
+.prose p { color: var(--muted); font-size: 16px; line-height: 1.75; }
+.prose p + p { margin-top: 16px; }
+.prose .lead { color: var(--ink); }
+.links-row { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 30px; font-size: 14.5px; }
+/* Outside the pitches and Resources: label on the left, plain text on the right */
+.notes { margin-top: 36px; padding-top: 22px; border-top: 1px solid var(--rule); }
+.notes h2 { font-size: 22px; }
+.notes-intro { margin-top: 6px; color: var(--muted); font-size: 14.5px; }
+.notes ul { list-style: none; padding: 0; margin: 14px 0 0; }
+.notes li { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 16px; padding: 10px 0; border-top: 1px solid var(--rule-2); font-size: 14.5px; line-height: 1.6; }
+.notes li:first-child { border-top: 0; }
+.notes li > span:last-child { color: var(--muted); }
+.notes .src { font-weight: 500; color: var(--ink); }
+@media (max-width: 560px) { .notes li { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+.extra p { margin-top: 4px; color: var(--muted); font-size: 14.5px; line-height: 1.65; }
+
+/* Text links with an underline that thickens on hover */
+.tlink { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; font-weight: 500; }
+.tlink:hover { text-decoration-thickness: 2px; }
+
+/* ---------- Pitch lists: written entries, not a table ---------- */
+.list { margin-top: clamp(56px, 8vw, 96px); }
+.list + .list { margin-top: clamp(40px, 6vw, 64px); }
+.list-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; padding-bottom: 12px; border-bottom: 1px solid var(--ink); }
+.list-head h2 { font-size: clamp(24px, 2.6vw, 30px); }
+.list-head p { font-size: 13.5px; color: var(--muted); }
+.entry { display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; gap: clamp(16px, 3vw, 40px); padding: 26px 0; border-bottom: 1px solid var(--rule-2); text-decoration: none; align-items: start; }
+.entry:hover h3 { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 5px; }
+.e-mark { display: flex; align-items: center; gap: 12px; }
+.e-mark .logo { width: 40px; height: 40px; }
+.e-mark .tick { font-family: var(--mono); font-size: 15px; font-weight: 500; letter-spacing: .02em; }
+.e-main h3 { font-size: 23px; }
+.e-main .dir { font-family: var(--font); font-size: 14px; font-weight: 500; margin-left: 10px; letter-spacing: 0; }
+.e-main .thesis { margin-top: 8px; color: var(--muted); max-width: 64ch; }
+.e-main .facts { margin-top: 12px; font-size: 13.5px; color: var(--muted); }
+.e-main .facts b { font-weight: 500; color: var(--ink); }
+.e-ret { text-align: right; font-family: var(--mono); font-size: clamp(22px, 2.4vw, 28px); line-height: 1.1; }
+.e-ret small { display: block; margin-top: 6px; font-family: var(--font); font-size: 12px; color: var(--faint); }
+.logo { flex-shrink: 0; border-radius: 3px; overflow: hidden; }
+.logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.dir-long { color: var(--long); } .dir-short { color: var(--short); }
+.asof { font-size: 12.5px; color: var(--faint); margin-top: 14px; max-width: 76ch; }
+@media (max-width: 760px) {
+  .entry { grid-template-columns: minmax(0, 1fr) auto; row-gap: 12px; }
+  .e-mark { grid-column: 1 / -1; }
+  .e-ret { grid-column: 2; grid-row: 2; }
+}
+
+/* ---------- Pitches page header ---------- */
+.page-head h1 { font-size: clamp(34px, 4.6vw, 52px); letter-spacing: -0.02em; }
+.page-head p { margin-top: 12px; color: var(--muted); max-width: 60ch; }
+#page-pitches .list:first-of-type { margin-top: clamp(32px, 5vw, 52px); }
+
+/* ---------- Pitch detail: sticky fact sidebar beside the write-up ---------- */
+.crumb { font-size: 13.5px; color: var(--muted); text-decoration: none; }
+.crumb:hover { color: var(--ink); }
+.d-wrap { margin-top: 26px; align-items: start; }
+.d-side { grid-column: 1 / 4; position: sticky; top: 24px; }
+.d-main { grid-column: 4 / 13; padding-left: clamp(0px, 2vw, 24px); border-left: 1px solid var(--rule); }
+.side-id { display: flex; align-items: center; gap: 12px; }
+.side-id .logo { width: 44px; height: 44px; }
+.side-id .tick { font-family: var(--mono); font-size: 18px; font-weight: 500; }
+.side-id small { display: block; font-size: 12.5px; color: var(--muted); }
+.facts-list { margin-top: 20px; }
+.facts-list > div { display: flex; justify-content: space-between; gap: 12px; padding: 9px 0; border-top: 1px solid var(--rule-2); font-size: 14px; }
+.facts-list dt { color: var(--muted); }
+.facts-list dd { font-family: var(--mono); text-align: right; }
+.facts-list dd small { display: block; font-family: var(--font); font-size: 11.5px; color: var(--faint); }
+.side-links { display: flex; flex-direction: column; gap: 8px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--rule); font-size: 14px; }
+.d-head h1 { font-size: clamp(34px, 4.6vw, 54px); letter-spacing: -0.02em; line-height: 1.04; }
+.d-head .dek { margin-top: 14px; font-family: var(--serif); font-size: clamp(18px, 1.8vw, 20px); line-height: 1.45; color: var(--muted); max-width: 54ch; }
+@media (max-width: 900px) {
+  .d-side, .d-main { grid-column: 1 / -1; }
+  .d-side { position: static; }
+  .d-main { display: contents; }
+  .d-head, .tabs, .detail { grid-column: 1 / -1; }
+  .d-head { order: -1; margin-bottom: 26px; }
+}
+
+/* Tabs: plain words, the active one in ink with an accent underline */
+.tabs { display: flex; gap: 26px; margin-top: 30px; border-bottom: 1px solid var(--rule); overflow-x: auto; scrollbar-width: none; }
+.tabs button { font: inherit; font-size: 14.5px; font-weight: 500; padding: 0 0 11px; margin-bottom: -1px; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--muted); cursor: pointer; white-space: nowrap; }
+.tabs button:hover { color: var(--ink); }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+@media (max-width: 560px) { .wide-only { display: none; } .tabs { gap: 22px; } }
+
+/* Tab content: headed blocks stacked in the reading column */
+.detail { padding-top: 6px; }
+.row { padding: 26px 0; border-bottom: 1px solid var(--rule-2); }
+.row:last-child { border-bottom: 0; }
+.row > h3 { font-size: 20px; margin-bottom: 12px; }
+.row > .body { max-width: 68ch; }
+.row > .body.wide { max-width: none; }
+.detail p, .detail li { color: var(--muted); font-size: 15.5px; line-height: 1.7; }
+.detail ol, .detail ul { padding-left: 20px; margin: 0; }
+.detail li + li { margin-top: 10px; }
+.detail li::marker { font-family: var(--mono); color: var(--faint); font-size: 13px; }
+/* Stacked term and explanation pairs (pillars, risks) */
+.pairs > div + div { margin-top: 20px; }
+.pairs dt { font-weight: 600; color: var(--ink); }
+.pairs dd { color: var(--muted); margin-top: 4px; line-height: 1.7; }
+/* The exit note is the one place with a left rule, since it is the outcome of the pitch */
+.closed-note .body { border-left: 2px solid var(--accent); padding-left: 18px; }
+.closed-note p { color: var(--ink) !important; font-size: 16.5px !important; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(20px, 3vw, 36px); }
+.two h4 { font-size: 14px; font-weight: 600; color: var(--ink); margin: 0 0 6px; }
+table.t { width: 100%; border-collapse: collapse; font-size: 14px; }
+table.t th, table.t td { padding: 9px 0; border-bottom: 1px solid var(--rule-2); text-align: right; vertical-align: baseline; }
+table.t th + th, table.t td + td { padding-left: 16px; }
+table.t th:first-child, table.t td:first-child { text-align: left; }
+table.t th { font-size: 12.5px; font-weight: 500; color: var(--faint); }
+table.t td { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+table.t td:first-child { font-family: var(--font); color: var(--muted); }
+table.t tr.total td { border-top: 1px solid var(--ink); border-bottom: 0; color: var(--ink); font-weight: 600; }
+table.t.events td:last-child { text-align: left; font-family: var(--font); color: var(--ink); }
+.scroll-x { overflow-x: auto; }
+@media (max-width: 760px) { .two { grid-template-columns: minmax(0, 1fr); } }
+
+/* Valuation range chart from the deck (football field) */
+.ff-label { fill: var(--muted); font-size: 11.5px; font-family: var(--font); }
+.ff-val { fill: var(--faint); font-size: 10.5px; font-family: var(--mono); }
+.ff-ref { stroke: var(--ink); } .ff-ref-t { fill: var(--ink); font-size: 11px; font-family: var(--mono); }
+.ff-cur { stroke: var(--faint); } .ff-cur-t { fill: var(--muted); font-size: 11px; font-family: var(--mono); }
+.ff-pt { stroke: var(--target); } .ff-pt-t { fill: var(--target); font-size: 11px; font-family: var(--mono); font-weight: 500; }
+.ff-bar-long { fill: #d5e3d9; stroke: var(--long); } .ff-bar-short { fill: #ecd5cf; stroke: var(--short); }
+
+/* Deck viewer */
+.deck-stage { position: relative; background: #e9e4d9; overflow: hidden; aspect-ratio: 16 / 9; max-width: 100%; border: 1px solid var(--rule); }
+.deck-stage img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.deck-stage:fullscreen { background: #000; aspect-ratio: auto; border: 0; }
+.deck-bar { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 14px; flex-wrap: wrap; font-size: 14px; }
+.deck-bar .ctl { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+.thumbs { display: flex; gap: 10px; overflow-x: auto; padding: 4px 0 8px; margin-top: 18px; }
+.thumbs button { flex: 0 0 auto; width: 104px; aspect-ratio: 16 / 9; padding: 0; border: 1px solid var(--rule); background: #e9e4d9; cursor: pointer; opacity: .65; }
+.thumbs button[aria-current="true"] { opacity: 1; border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.thumbs button:hover { opacity: 1; }
+.thumbs img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Each thumbnail is one frame of a single strip image per deck */
+.thumbs .tb { display: block; width: 100%; height: 100%; background-repeat: no-repeat; }
+/* Buttons styled as text, so the deck controls match the rest of the page */
+.textbtn { font: inherit; font-weight: 500; color: var(--accent); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.textbtn:hover { text-decoration-thickness: 2px; }
+
+/* Model viewer */
+.sheet-tabs { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 14px; }
+.sheet-tabs button { font: inherit; font-size: 13.5px; padding: 0 0 4px; border: 0; border-bottom: 1.5px solid transparent; background: none; color: var(--muted); cursor: pointer; }
+.sheet-tabs button[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.sheet { overflow: auto; max-height: 600px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule); background: #fbfaf6; }
+.sheet table { border-collapse: collapse; font-family: var(--mono); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.sheet td { padding: 5px 12px; border-bottom: 1px solid var(--rule-2); white-space: nowrap; text-align: right; color: var(--ink); }
+.sheet td:first-child { position: sticky; left: 0; background: #fbfaf6; text-align: left; font-family: var(--font); font-size: 12px; color: var(--muted); border-right: 1px solid var(--rule-2); max-width: 300px; overflow: hidden; text-overflow: ellipsis; }
+.sheet td.b { font-weight: 600; color: var(--ink); }
+.sheet tr:hover td { background: #f1ede4; }
+
+/* ---------- Footer ---------- */
+footer.end { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; flex-wrap: wrap; padding: 20px 0 44px; margin-top: clamp(56px, 8vw, 96px); font-size: 13px; color: var(--muted); border-top: 1px solid var(--rule); }
+footer.end .links { display: flex; gap: 20px; flex-wrap: wrap; align-items: baseline; }
+footer.end a, .linkbtn { color: var(--ink); text-decoration: none; font: inherit; font-weight: 500; background: none; border: 0; padding: 0; cursor: pointer; }
+footer.end a:hover, .linkbtn:hover { color: var(--accent); }
+
+/* ---------- Narrow screens: the profile stacks ---------- */
+@media (max-width: 860px) {
+  .portrait, .profile-text { grid-column: 1 / -1; }
+  .portrait { position: static; max-width: 300px; }
+  .profile-text { margin-top: 28px; }
+}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <a class="me" href="#home">Aatreyo Bhattacharyya</a>
+    <nav class="top-nav" aria-label="Pages">
+      <a href="#home" data-nav="home">Overview</a>
+      <a href="#pitches" data-nav="pitches">Pitches</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ================= OVERVIEW ================= -->
+    <div class="page" id="page-home">
+      <section class="grid profile" aria-label="About">
+        <figure class="portrait">
+          <img src="portrait-frame.webp" alt="Aatreyo Bhattacharyya" width="880" height="1100">
+        </figure>
+        <div class="profile-text">
+          <p class="school">UC Berkeley, Applied Mathematics and Business Administration</p>
+          <h1>Aatreyo Bhattacharyya</h1>
+          <p class="dek">Stock pitches that I've made in my short time at Berkeley so far. I'd love to hear any feedback and learn more as I continue my investing journey!</p>
+          <div class="prose">
+            <p class="lead">Hi, my name is Aatreyo and I'm a student at Berkeley. I built this website to be an evolving record of my ideas, the reasoning behind them, and the mistakes I learn from along the way.</p>
+            <p>Probability was the first subject that changed how I think about markets. A fair coin can land heads five times in a row, and a good bet can lose while a bad one wins. A single outcome says very little about whether the thinking behind it was sound. What matters is whether the odds were on your side when you made the call, and whether you were honest about what you didn't know.</p>
+            <p>Here I'll share the companies I've pitched, what's capturing my curiosity, and how each idea plays out, good or bad. I hope it becomes an honest record of how I grow as an investor.</p>
+          </div>
+          <section class="notes" aria-label="Outside the pitches">
+            <h2>Outside the pitches</h2>
+            <ul>
+              <li><span class="src">Mention markets</span><span>I trade earnings-call mention markets on Kalshi and I'm up about $7K. My best trade was No on Celsius saying "World Cup" on its call.</span></li>
+              <li><span class="src">Other markets</span><span>Politics, SpaceX launches, and the World Cup, where I built my own model.</span></li>
+              <li><span class="src">Sports</span><span>I play pickup basketball. Kings and Arsenal fan.</span></li>
+              <li><span class="src">Poker</span><span>I play when I can.</span></li>
+              <li><span class="src">Music</span><span>House music while I work, mostly Alesso and BUNT.</span></li>
+            </ul>
+          </section>
+
+          <section class="notes" aria-label="Resources">
+            <h2>Resources</h2>
+            <p class="notes-intro">Some resources that I find interesting and have learned a lot from. I use them to go deeper into the industries I'm most interested in, mainly semiconductors and cybersecurity.</p>
+            <ul>
+              <li><a class="tlink" href="https://semianalysis.com" target="_blank" rel="noopener">SemiAnalysis</a><span>How I keep up with chip supply and data-center buildouts.</span></li>
+              <li><a class="tlink" href="https://stratechery.com" target="_blank" rel="noopener">Stratechery</a><span>Helps me think through tech business models and strategy.</span></li>
+              <li><a class="tlink" href="https://www.dwarkesh.com" target="_blank" rel="noopener">Dwarkesh Podcast</a><span>Interviews that give me context on where AI is heading.</span></li>
+              <li><a class="tlink" href="https://krebsonsecurity.com" target="_blank" rel="noopener">Krebs on Security</a><span>How I follow cybercrime and major breaches.</span></li>
+              <li><a class="tlink" href="https://risky.biz" target="_blank" rel="noopener">Risky Business</a><span>My weekly catch-up on cybersecurity news.</span></li>
+              <li><a class="tlink" href="https://darknetdiaries.com" target="_blank" rel="noopener">Darknet Diaries</a><span>Real hack stories that show how attacks actually happen.</span></li>
+            </ul>
+          </section>
+
+          <div class="links-row">
+            <a class="tlink" href="#pitches">Read the pitches</a>
+            <a class="tlink" href="https://www.linkedin.com/in/aatreyo-bhattacharyya" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ================= PITCHES ================= -->
+    <div class="page" id="page-pitches" hidden>
+      <section class="page-head">
+        <h1>Pitches</h1>
+        <p>Some of my finished pitches. Each one includes the thesis, valuation, some risks, and a full deck and model. Please reach out as I would love to hear your thoughts!</p>
+      </section>
+
+      <section class="list">
+        <div class="list-head"><h2>Current ideas</h2><p>Returns count in the direction of the trade.</p></div>
+        <div id="all-table"></div>
+        <p class="asof" id="asof-all"></p>
+      </section>
+
+      <section class="list">
+        <div class="list-head"><h2>Past ideas</h2><p>Why I sold is on each pitch page.</p></div>
+        <div id="all-closed"></div>
+      </section>
+    </div>
+
+    <!-- ================= PITCH DETAIL ================= -->
+    <div class="page" id="page-detail" hidden>
+      <a class="crumb" href="#pitches">Pitches / <span id="crumb-t"></span></a>
+      <div class="grid d-wrap">
+        <aside class="d-side" id="d-side" aria-label="Key figures"></aside>
+        <div class="d-main">
+          <header class="d-head" id="d-head"></header>
+          <div class="tabs" role="tablist">
+            <button role="tab" data-tab="summary" aria-selected="true">Summary</button>
+            <button role="tab" data-tab="valuation" aria-selected="false">Valuation</button>
+            <button role="tab" data-tab="risks" aria-selected="false">Risks<span class="wide-only"> &amp; Catalysts</span></button>
+            <button role="tab" data-tab="deck" aria-selected="false">Deck</button>
+            <button role="tab" data-tab="model" aria-selected="false">Model</button>
+          </div>
+          <div class="detail" id="d-body"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="end">
+    <div class="links">
+      <span>aatreyo@berkeley.edu</span>
+      <button type="button" class="linkbtn" id="copy-email">Copy email</button>
+      <a href="https://www.linkedin.com/in/aatreyo-bhattacharyya" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <span>Student research. Not investment advice.</span>
+  </footer>
+</div>
+
+<script>
+/* =====================================================================
+   MARKET DATA
+   Daily closes since each pitch (Yahoo Finance, stockanalysis.com). A scheduled
+   task appends each new close after the market shuts and republishes the page.
+   Everything derived below (current price, returns, Sharpe) comes from HISTORY.
+   Sharpe: annualized mean daily return in the trade's direction, less a 4.3%
+   risk-free rate, over annualized volatility. Shown after 30 trading days.
+   ===================================================================== */
+const HISTORY = {
+  HOOD: [["2026-04-28",82.07],["2026-04-29",71.2],["2026-04-30",72.89],["2026-05-01",73.66],["2026-05-04",76.55],["2026-05-05",77.03],["2026-05-06",79.05],["2026-05-07",76.28],["2026-05-08",77.03],["2026-05-11",80.78],["2026-05-12",78.27],["2026-05-13",76.75],["2026-05-14",80.7],["2026-05-15",77.14],["2026-05-18",77.15],["2026-05-19",74.16],["2026-05-20",75.76],["2026-05-21",75.92],["2026-05-22",73.64],["2026-05-26",74.09],["2026-05-27",76.23],["2026-05-28",84.84],["2026-05-29",94.3],["2026-06-01",90.73],["2026-06-02",88.16],["2026-06-03",82.85],["2026-06-04",88.33],["2026-06-05",82.47],["2026-06-08",85.04],["2026-06-09",83.77],["2026-06-10",86.36],["2026-06-11",92.23],["2026-06-12",93.19],["2026-06-15",98.12],["2026-06-16",96.71],["2026-06-17",105.2],["2026-06-18",108.15],["2026-06-22",105.71],["2026-06-23",103.25],["2026-06-24",97.19],["2026-06-25",93.47],["2026-06-26",98.69],["2026-06-29",101.83],["2026-06-30",100.28],["2026-07-01",108.65],["2026-07-02",112.73],["2026-07-06",117.55],["2026-07-07",112.9],["2026-07-08",113.53],["2026-07-09",115.11],["2026-07-10",111.97],["2026-07-13",109.86],["2026-07-14",113.45],["2026-07-15",115.54],["2026-07-16",106.02],["2026-07-17",99.96],["2026-07-20",99.28],["2026-07-21",106.36],["2026-07-22",104.48],["2026-07-23",101.58],["2026-07-24",94.91],["2026-07-27",95.65],["2026-07-28",92.76],["2026-07-29",89.84],["2026-07-30",86.6],["2026-07-31",86.56],["2026-08-03",90.34],["2026-08-04",93.51],["2026-08-05",92.8],["2026-08-06",90.71],["2026-08-07",93.29],["2026-08-10",94.52],["2026-08-11",94.38],["2026-08-12",94.91],["2026-08-13",99.37],["2026-08-14",95.56],["2026-08-17",96.25],["2026-08-18",91.53],["2026-08-19",95.77],["2026-08-20",95.1],["2026-08-21",108.13],["2026-08-24",103.62],["2026-08-25",112.09],["2026-08-26",108.54],["2026-08-27",109.76],["2026-08-28",104.26],["2026-08-31",104.81],["2026-09-01",103.51],["2026-09-02",106.99],["2026-09-03",124.72],["2026-09-04",122.11],["2026-09-08",117.34],["2026-09-09",115.28],["2026-09-10",113.33],["2026-09-11",112.57],["2026-09-14",114.33],["2026-09-15",110.45],["2026-09-16",104.42],["2026-09-17",109.81],["2026-09-18",119.82],["2026-09-21",123.3],["2026-09-22",124.25],["2026-09-23",122.7],["2026-09-24",120.82],["2026-09-25",119.4],["2026-09-28",116.46],["2026-09-29",116.22],["2026-09-30",112.5],["2026-10-01",111.15],["2026-10-02",112.74],["2026-10-05",114.11],["2026-10-06",112.0],["2026-10-07",109.51],["2026-10-08",107.01],["2026-10-09",109.02],["2026-10-12",109.22],["2026-10-13",110.52],["2026-10-14",101.08],["2026-10-15",103.99],["2026-10-16",98.87],["2026-10-19",96.52],["2026-10-20",98.21],["2026-10-21",99.87],["2026-10-22",96.58],["2026-10-23",95.07],["2026-10-26",92.16],["2026-10-27",94.56],["2026-10-28",91.43],["2026-10-29",91.59],["2026-10-30",84.99],["2026-11-02",83.84],["2026-11-03",85.68],["2026-11-04",87.41],["2026-11-05",78.39],["2026-11-06",80.91]],
+  NCLH: [["2026-10-07",15.05],["2026-10-08",15.49],["2026-10-09",15.57],["2026-10-12",15.35],["2026-10-13",15.32],["2026-10-14",14.87],["2026-10-15",15.39],["2026-10-16",15.05],["2026-10-19",15.24],["2026-10-20",15.65],["2026-10-21",15.59],["2026-10-22",15.54],["2026-10-23",15.10],["2026-10-26",15.25],["2026-10-27",15.75],["2026-10-28",16.06],["2026-10-29",18.22],["2026-10-30",17.57],["2026-11-02",17.94],["2026-11-03",17.42],["2026-11-04",18.60],["2026-11-05",17.76],["2026-11-06",17.92]],
+  NBIS: [["2026-11-09",141.45]]
+};
+const RF = 0.043, MIN_DAYS = 30;
+
+// Derive price, Sharpe and volatility for one position from its close history
+function marketFor(p) {
+  const rows = HISTORY[p.ticker];
+  const px = p.closed
+    ? [p.ref, ...rows.filter((r) => r[0] >= p.date && r[0] < p.closed.date).map((r) => r[1]), p.closed.price]
+    : rows.map((r) => r[1]);
+  const rets = px.slice(1).map((v, i) => (v / px[i] - 1) * (p.side === "short" ? -1 : 1));
+  const n = rets.length, out = { last: px[px.length - 1], days: n, sharpe: null, vol: null };
+  if (n >= MIN_DAYS) {
+    const mean = rets.reduce((a, b) => a + b, 0) / n;
+    const sd = Math.sqrt(rets.reduce((a, r) => a + (r - mean) ** 2, 0) / (n - 1));
+    out.vol = +(sd * Math.sqrt(252) * 100).toFixed(1);
+    out.sharpe = (mean * 252 - RF) / (sd * Math.sqrt(252));
+  }
+  return out;
+}
+// Latest date across all series, shown as "as of"
+const LAST_DATE = Object.values(HISTORY).map((h) => h[h.length - 1][0]).sort().pop();
+const AS_OF = new Date(LAST_DATE + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) + " close";
+
+/* =====================================================================
+   PITCH DATA (from the pitch decks and Excel models)
+   ref = price on the pitch date; pt = price target. USD per share.
+   ===================================================================== */
+const PITCHES = [
+  {
+    ticker: "HOOD", name: "Robinhood Markets", exchange: "NASDAQ", side: "long", date: "2026-04-30",
+    ref: 71.18, refNote: "Apr 30 open", pt: 182, ptLabel: "FY29", irr: 23.8, slides: 17,
+    closed: {
+      date: "2026-09-23", price: 122.00,
+      note: "I sold at $122.00 on Sep 23, 2026, up 71.4% from the Apr 30 open. The core call was right: the thesis played out and the stock re-rated. Where I missed was the options take rate. I over-predicted how quickly it would inflect, and it moved more slowly than my model assumed. Without that lever, I didn't see much of a ramp left toward the $182 target, so I took the gain."
+    },
+    deck: "files/HOOD_Long_Deck.pdf", model: "files/HOOD_Model.b64.txt", modelName: "HOOD_Model.xlsx",
+    thesis: [
+      "Robinhood is shifting from a trading app to a wealth platform, and new customers adopt Gold at roughly 3x the blended rate.",
+      "Options growth looks structural: same-day options nearly doubled to 24% of US volume, and active users trade regardless of the VIX.",
+      "The Street holds take rate flat while volume shifts to short-dated single-stock options that pay a premium rebate, so options revenue is under-modeled."
+    ],
+    pillars: [
+      ["Gold is sticky", "Net new Gold subscribers outpaced net new funded users, implying new customers attach at about 3x the blended rate. The 3% IRA match, Gold Card, and 3.35% cash sweep drive retention."],
+      ["Options volume is structural", "2026 options volume is tracking 50% above its 5-year average, and 0DTE share rose from about 12% to 24.1%."],
+      ["Take rate is mismodeled", "Very short-dated contracts earn about 3.2x the rebate of longer-dated ones, so revenue per contract rises as the mix shifts."]
+    ],
+    method: "DCF (50% exit multiple, 50% perpetuity growth) alongside trading comps, with an exit at FY29 year-end.",
+    build: [["DCF, exit multiple (21x FY29 EBITDA)", "$186.82", ""], ["DCF, perpetuity growth (3.4%)", "$166.69", ""], ["Comps (P/E and EV/EBITDA)", "$194.85", ""]],
+    assumptions: [["WACC", "15.0%"], ["FY29 revenue", "$15.2B (FY25: $4.5B)"], ["FY29 EBIT margin", "57.9%"]],
+    football: [["DCF, exit multiple", 80.73, 211.62], ["DCF, perpetuity", 57.74, 180.38], ["Comps, EV/EBITDA", 196.15, 196.15], ["Comps, P/E", 193.99, 193.99]],
+    risks: [
+      ["Options revenue compresses", "PFOF cuts or a prolonged low-volatility regime could compress revenue per contract. Robinhood's order-flow scale gives it bargaining power with market makers."],
+      ["Risk-off markets", "Retail activity falls in risk-off periods. Gold subscription fees and net interest income provide a floor."],
+      ["Crypto beta", "Crypto revenue still tracks Bitcoin, though Bitstamp's institutional flow diversifies it."]
+    ],
+    catalysts: [["Q2 2026", "Earnings: options revenue above $320M vs. Street ~$295M"], ["2026 to 2027", "Legend adoption and Gold attach data"], ["2026 to 2027", "Bitstamp institutional volume"], ["FY29 YE", "Exit and reassess against $182"]]
+  },
+  {
+    ticker: "NCLH", name: "Norwegian Cruise Line Holdings", exchange: "NYSE", side: "long", date: "2026-10-07",
+    ref: 15.05, pt: 35.11, ptLabel: "FY30", irr: 32.57, slides: 17,
+    deck: "files/NCLH_Long_Deck.pdf", model: "files/NCLH_Model.b64.txt", modelName: "NCLH_Model.xlsx",
+    thesis: [
+      "2026 was an execution miss rather than a demand problem: NCL cut travel-advisor pay and discounted last-minute fares well below peers.",
+      "With commissions restored, Caribbean berth growth below Street expectations, and its private-island pier open, net yield can grow 4.5% in FY27 against +0.9% consensus.",
+      "$450M of cost savings takes leverage from 6.2x to 3.5x by 2029, supporting a peer-level multiple."
+    ],
+    pillars: [
+      ["Advisor channel resets", "NCL's share of bookings through travel advisors fell to about 40% vs. about 63% for the industry. Restoring full-fare commission moves it from 4th to 2nd in advisor rankings."],
+      ["The Caribbean is not saturated", "Caribbean berths grow about 4.5% in 2027, not the roughly 11% the Street assumes, leaving room for occupancy gains."],
+      ["Cost savings not in consensus", "Elliott identified $225M in two quarters. The model assumes $450M against the Street's $150M."]
+    ],
+    method: "DCF and 9.8x FY27 EV/EBITDA comps, weighted 50/50. Probability-weighted value is $33.20. Presented to Dodge & Cox.",
+    build: [["DCF (8.8% WACC, 2.5% growth)", "$37.06", "50%"], ["Comps (9.8x FY27 EBITDA)", "$33.16", "50%"]],
+    assumptions: [["FY29 Adj. EBITDA", "$3.98B (20% above Street)"], ["Net leverage", "6.2x to 3.5x by YE29"], ["Bear / base / bull", "$10.67 / $35.11 / $49.09"]],
+    football: [["52-week range", 14, 25], ["Street targets", 13, 20.5], ["DCF, WACC range", 31, 44], ["DCF, growth range", 33, 42], ["Comps, 8.0x to 9.9x", 21, 34], ["Bear to bull", 11, 49]],
+    risks: [
+      ["Recession while levered", "$10.9B of export-credit ship financing is committed and no bond matures until 2029."],
+      ["Advisor costs without volume", "Fare gaps and advisor rankings would flag it within two quarters."],
+      ["Fuel price spike", "38% of 2027 fuel is hedged; a 10% move in fuel is about 2.4% of FY27 EBITDA."]
+    ],
+    catalysts: [["Jan to Mar 2027", "Wave Season bookings"], ["Feb 2027", "FY27 guidance"], ["FY28", "Full run-rate of pricing and savings"], ["YE29", "Leverage reaches peer levels"]]
+  },
+  {
+    // Short: returns count when the price falls. ref is the Nov 9, 2026 close used in the model.
+    ticker: "NBIS", name: "Nebius Group", exchange: "NASDAQ", side: "short", date: "2026-11-09",
+    ref: 141.45, refNote: "Nov 9 close", pt: 83.38, ptLabel: "Sep. '27", slides: 20,
+    deck: "files/NBIS_Short_Deck.pdf", model: "files/NBIS_Model.xlsx", modelName: "NBIS_Model.xlsx",
+    thesis: [
+      "The Street pays a CoreWeave premium for owned halls and net cash. The halls are late and the cash is gone by FY27.",
+      "Delivery clock: Vineland Phase 2 misses Microsoft's Dec. 1 go-live, so December exit ARR lands at $6.0B against $7.6B for the Street.",
+      "Funding clock: the 364-day Citi bridge, delay credits, and $53B of new money FY27-30 leave 354M diluted shares by FY30 against the Street's 305M."
+    ],
+    pillars: [
+      ["Microsoft won't pay for unbuilt halls", "Billing starts only at acceptance. 7 of 11 Vineland tranches are unaccepted at YE26, taking $2.2B off Microsoft's December exit ARR."],
+      ["Phase 2 lands five months late", "No water allocation on record, 57 of 154 MW of Bloom power visible from space, and cooling cargo still landing in October. We model Phase 2 accepted in May 2027."],
+      ["Citi buys a year, not a takeout", "Refinancing the $3.5B bridge needs 167 MW accepted; we see 132 MW by Q2 '27, so $0.4B is repaid in equity (3.6M shares)."],
+      ["Late halls leak $551M in credits", "Every Phase 2 tranche hits the SOW's 90-day credit cap, costing $551M of FY27 revenue, $421M of it in Q2 '27."],
+      ["The Street forgot 49M shares", "Cash breaks the floor in Q2 '27. Stock pay, the Citi equity, and new converts take FY30 diluted shares 16% above consensus."]
+    ],
+    method: "Normalized FY30 EBIT (19.1% margin, 15x, discounted at a 16% cost of equity) and GPU-cloud comps at 80% of the peer median, weighted 50/50. No DCF, since free cash flow is negative every year to FY30. Team pitch with Team Book Club for Point72.",
+    build: [["Normalized EBIT (15x FY30 EBIT)", "$102.45", "50%"], ["Comps (CoreWeave, IREN)", "$64.31", "50%"]],
+    assumptions: [["FY30 revenue", "$38.9B (5% below Street)"], ["FY30 EBIT margin", "19.1%"], ["FY30 diluted shares", "354M vs. Street 305M"], ["Bear / base / bull", "$24.04 / $83.38 / $186.05"]],
+    football: [["52-week range", 74, 300], ["Street targets", 175, 399], ["EV / Fwd ARR", 0, 211], ["EV / EBITDA", 6, 278], ["Normalized EBIT", 55, 128], ["Bear to bull", 24.04, 186.05]],
+    risks: [
+      ["A labor surge saves the schedule", "Cars on site rose 28% from January to July, but power and cooling are still unbuilt."],
+      ["Temporary power bridges the gap", "The 62 rented engines averaged 29 MW in July, 24% of nameplate, and NJDEP's $1.07M order can shut them down."],
+      ["Citi rolls or customers prepay more", "Citi is 364-day paper on nearly all assets, and only 132 of the 167 MW it needs are accepted by Q2 '27."]
+    ],
+    catalysts: [["Nov 12, 2026", "Q3 '26 print: accepted vs. connected MW, Citi terms"], ["Dec 1, 2026", "Microsoft SOW go-live date"], ["Feb 2027", "Q4 '26 print: exit ARR and FY27 capex guide"], ["Mar to May 2027", "Phase 2 acceptance and delay credits"], ["Aug 2027", "Q2 '27 print: takeout term sheet"], ["Oct 16, 2027", "Citi bridge matures"]]
+  }
+];
+
+// Marks for every position, derived from the price history above
+const MARKET = Object.fromEntries(PITCHES.map((p) => [p.ticker, marketFor(p)]));
+
+/* ---------- Helpers ---------- */
+const $ = (s) => document.querySelector(s);
+const usd = (n) => "$" + n.toFixed(2);
+const pct = (n) => (n >= 0 ? "+" : "") + n.toFixed(1) + "%";
+const sign = (n) => (n >= 0 ? "up" : "dn");
+// Directional return between two prices: a short gains when the price falls
+const dirRet = (p, from, to) => ((to - from) / from * 100) * (p.side === "long" ? 1 : -1);
+const sincePitch = (p) => dirRet(p, p.ref, MARKET[p.ticker].last);
+const toTarget = (p) => dirRet(p, MARKET[p.ticker].last, p.pt);   // remaining upside from today
+const sharpeStr = (p) => MARKET[p.ticker].sharpe == null ? "n/a" : MARKET[p.ticker].sharpe.toFixed(2);
+const nice = (iso) => new Date(iso + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+const slug = (p) => p.ticker.toLowerCase();
+const byNewest = [...PITCHES].sort((a, b) => b.date.localeCompare(a.date));
+const openList = byNewest.filter((p) => !p.closed);
+const closedList = [...PITCHES].filter((p) => p.closed).sort((a, b) => b.closed.date.localeCompare(a.closed.date));
+// Calendar days between two ISO dates
+const daysBetween = (a, b) => Math.round((new Date(b + "T12:00:00") - new Date(a + "T12:00:00")) / 864e5);
+
+/* ---------- Pitch lists ----------
+   Each pitch is a short written entry: ticker and logo, name and direction, the first line of
+   the thesis, the prices in a sentence, and the return on the right. */
+function entryHTML(p) {
+  const m = MARKET[p.ticker], r = sincePitch(p);
+  const sharpe = m.sharpe == null ? "Sharpe shows after 30 trading days." : `Sharpe <b>${sharpeStr(p)}</b>.`;
+  const facts = p.closed
+    ? `Entered ${nice(p.date)} at <b>${usd(p.ref)}</b> and exited ${nice(p.closed.date)} at <b>${usd(p.closed.price)}</b>, short of the ${usd(p.pt)} target. ${sharpe}`
+    : `Pitched ${nice(p.date)} at <b>${usd(p.ref)}</b>, now <b>${usd(m.last)}</b>. Target <b>${usd(p.pt)}</b>, ${pct(toTarget(p))} from here. ${sharpe}`;
+  return `
+    <a class="entry" href="#${slug(p)}">
+      <div class="e-mark"><span class="logo"><img src="logos/${p.ticker}.webp" alt="" width="160" height="160"></span><span class="tick">${p.ticker}</span></div>
+      <div class="e-main">
+        <h3>${p.name}<span class="dir dir-${p.side}">${p.side === "long" ? "Long" : "Short"}</span></h3>
+        <p class="thesis">${p.thesis[0]}</p>
+        <p class="facts">${facts}</p>
+      </div>
+      <div class="e-ret ${sign(r)}">${pct(r)}<small>${p.closed ? "realized" : "since pitch"}</small></div>
+    </a>`;
+}
+const tableHTML = (list) => list.map(entryHTML).join("");
+const closedTableHTML = (list) => list.map(entryHTML).join("");
+
+function renderTables() {
+  $("#all-table").innerHTML = tableHTML(openList);
+  $("#all-closed").innerHTML = closedTableHTML(closedList);
+  const note = `Prices as of ${AS_OF}. A short gains when the price falls. Sharpe is annualized from daily returns since the pitch, less a 4.3% risk-free rate.`;
+  $("#asof-all").textContent = note;
+}
+
+/* ---------- Football field (SVG) with pitch, current and target markers ---------- */
+function football(p) {
+  const rows = p.football, cur = MARKET[p.ticker].last;
+  const W = 660, rowH = 32, padL = 140, padR = 84, padT = 40, padB = 8;
+  const H = padT + rows.length * rowH + padB;
+  const vals = rows.flatMap((r) => [r[1], r[2]]).concat([p.ref, p.pt, cur]);
+  const lo = Math.min(...vals) * 0.85, hi = Math.max(...vals) * 1.05;
+  const x = (v) => padL + (v - lo) / (hi - lo) * (W - padL - padR);
+  // Marker labels sit on two lines so they never collide
+  const marks = [[p.ref, "ff-ref", (p.closed ? "Entry " : "Pitch ") + usd(p.ref), 12], [cur, "ff-cur", (p.closed ? "Exit " : "Now ") + usd(cur), 26], [p.pt, "ff-pt", "Target " + usd(p.pt), 12]];
+  let s = `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${p.ticker} valuation range by method">`;
+  // When the pitch and target labels share a line and sit close together, push them apart
+  const tight = Math.abs(x(p.ref) - x(p.pt)) < 150;
+  marks.forEach(([v, cls, label, ty], i) => {
+    let anchor = x(v) > W - padR - 40 ? "end" : x(v) < padL + 40 ? "start" : "middle";
+    if (tight && ty === 12) anchor = v === Math.min(p.ref, p.pt) ? "end" : "start";
+    s += `<line class="${cls}" x1="${x(v)}" x2="${x(v)}" y1="${ty + 4}" y2="${H - padB}" stroke-width="1.2" stroke-dasharray="3 3"/>`;
+    s += `<text class="${cls}-t" x="${x(v)}" y="${ty}" text-anchor="${anchor}">${label}</text>`;
+  });
+  rows.forEach(([label, a, b], i) => {
+    const y = padT + i * rowH + rowH / 2;
+    s += `<text class="ff-label" x="0" y="${y + 4}">${label}</text>`;
+    s += `<rect class="ff-bar-${p.side}" x="${x(a)}" y="${y - 6}" width="${Math.max(3, x(b) - x(a))}" height="12" rx="2"/>`;
+    s += `<text class="ff-val" x="${x(b) + 6}" y="${y + 4}">${a === b ? usd(a) : "$" + Math.round(a) + "-" + Math.round(b)}</text>`;
+  });
+  return s + "</svg>";
+}
+
+/* ---------- Model data (loaded once from models.json) ---------- */
+let MODELS = null;
+async function loadModels() {
+  if (MODELS) return MODELS;
+  try { MODELS = await (await fetch("models.json")).json(); } catch (e) { MODELS = {}; }
+  return MODELS;
+}
+const esc = (s) => String(s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+function sheetHTML(sheet) {
+  return `<table>${sheet.rows.map((r) => `<tr>${r.map((c) => {
+    const bold = Array.isArray(c), t = bold ? c[0] : c;
+    return `<td${bold ? ' class="b"' : ""}>${esc(t)}</td>`;
+  }).join("")}</tr>`).join("")}</table>`;
+}
+
+/* ---------- Google Drive links ----------
+   Paste each file's "Anyone with the link" Drive URL here. Empty entries hide their button. */
+const DRIVE = {
+  HOOD: { deck: "", model: "https://drive.google.com/file/d/1TS3XagmxKFMQS_kuts8nR2K29zvhRhJo/view" },
+  NCLH: { deck: "", model: "https://drive.google.com/file/d/1LFGhT0Pm8vGpYL5Iz9co-fxDAJNIIwDA/view" },
+  NBIS: { deck: "", model: "https://drive.google.com/file/d/18IIZDDRPov2GHK1e49xZIwSStMgrGTS8/view" }
+};
+// Plain text link to Drive; opens in a new tab, which the artifact frame allows
+const driveLink = (url, label) => url ? `<a class="tlink" href="${url}" target="_blank" rel="noopener">${label}</a>` : "";
+
+/* ---------- Detail tabs ---------- */
+let current = null, slide = 1;
+// Each block is a heading followed by its content
+const row = (label, body, cls = "", wide = false) => `<section class="row ${cls}"><h3>${label}</h3><div class="body${wide ? " wide" : ""}">${body}</div></section>`;
+const pairs = (list) => `<dl class="pairs">${list.map(([t, b]) => `<div><dt>${t}</dt><dd>${b}</dd></div>`).join("")}</dl>`;
+
+const TABS = {
+  summary: (p) =>
+    (p.closed ? row("Why I closed", `<p>${p.closed.note}</p>`, "closed-note") : "") +
+    row("Thesis", `<ol>${p.thesis.map((t) => `<li>${t}</li>`).join("")}</ol>`) +
+    row("Supporting evidence", pairs(p.pillars)),
+  valuation: (p) =>
+    row("Approach", `<p>${p.method}</p>`) +
+    row("Range by method", `<div class="scroll-x"><div style="min-width:520px">${football(p)}</div></div>`, "", true) +
+    row("Price target", `<div class="two">
+      <div><h4>Build</h4><div class="scroll-x"><table class="t">
+        <thead><tr><th>Method</th><th>Value</th><th>Weight</th></tr></thead>
+        <tbody>${p.build.map(([m, v, w]) => `<tr><td>${m}</td><td>${v}</td><td>${w || "-"}</td></tr>`).join("")}
+        <tr class="total"><td>Price target</td><td style="color:var(--target)">${usd(p.pt)}</td><td></td></tr></tbody>
+      </table></div></div>
+      <div><h4>Key assumptions</h4><table class="t"><tbody>${p.assumptions.map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join("")}</tbody></table></div>
+    </div>`, "", true),
+  risks: (p) =>
+    row("What would make me wrong", pairs(p.risks)) +
+    row("Catalysts", `<table class="t events"><tbody>${p.catalysts.map(([w, e]) => `<tr><td style="white-space:nowrap">${w}</td><td>${e}</td></tr>`).join("")}</tbody></table>`),
+  deck: (p) => `
+    <div style="padding-top:26px">
+      <div class="deck-stage" id="deck-stage"><img id="slide-img" src="" alt="" decoding="async"></div>
+      <div class="deck-bar">
+        <div class="ctl"><button type="button" class="textbtn" id="prev">Previous</button><button type="button" class="textbtn" id="next">Next</button><span class="num muted" id="slide-n" style="font-size:13px"></span></div>
+        <div class="ctl"><button type="button" class="textbtn" id="fullscreen">Full screen</button>${driveLink(DRIVE[p.ticker].deck, "Open in Google Drive")}</div>
+      </div>
+      <div class="thumbs" id="thumbs">${Array.from({ length: p.slides }, (_, i) => `<button type="button" data-slide="${i + 1}" aria-label="Slide ${i + 1}"><span class="tb" style="${thumbStyle(p, i)}"></span></button>`).join("")}</div>
+    </div>`,
+  model: (p) => row("Model", `
+      <p style="margin-bottom:18px">Key sheets, with values as calculated in the workbook.${DRIVE[p.ticker].model ? " " + driveLink(DRIVE[p.ticker].model, "Open the full model in Google Drive") + " for every tab and formula." : ""}</p>
+      <div class="sheet-tabs" id="sheet-tabs"></div>
+      <div class="sheet" id="sheet"><p class="muted" style="padding:14px">Loading the model...</p></div>`, "", true)
+};
+// Full slides are 2600px wide so text stays sharp on high-density screens; thumbnails are small
+const slidePath = (p, n) => `decks/${p.ticker}-${String(n).padStart(2, "0")}.webp`;
+// Thumbnails come from one strip per deck; slide i (0-based) is shown by shifting the background
+const thumbStyle = (p, i) => `background-image:url(decks/${p.ticker}-thumbs.webp);background-size:${p.slides * 100}% 100%;background-position:${p.slides > 1 ? (i / (p.slides - 1)) * 100 : 0}% 0`;
+
+// Show one slide and sync the counter and thumbnail highlight
+function showSlide(n) {
+  const p = current;
+  slide = Math.min(Math.max(1, n), p.slides);
+  $("#slide-img").src = slidePath(p, slide);
+  $("#slide-img").alt = `${p.ticker} pitch deck, slide ${slide}`;
+  $("#slide-n").textContent = `Slide ${slide} of ${p.slides}`;
+  document.querySelectorAll("#thumbs button").forEach((b) => b.setAttribute("aria-current", String(+b.dataset.slide === slide)));
+  // Warm the next slide so paging feels instant
+  if (slide < p.slides) { const pre = new Image(); pre.decoding = "async"; pre.src = slidePath(p, slide + 1); }
+}
+
+// Full-screen view of the current slide; quietly does nothing where the browser refuses it
+function toggleFullscreen() {
+  const stage = $("#deck-stage");
+  try {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else if (stage.requestFullscreen) stage.requestFullscreen().catch(() => {});
+  } catch (e) { /* not available in this view */ }
+}
+
+async function showModel(p) {
+  const models = await loadModels();
+  const sheets = models[p.ticker] || [];
+  if (!sheets.length) { $("#sheet").innerHTML = `<p class="muted" style="padding:14px">The model preview could not load. Use the Google Drive link above.</p>`; return; }
+  const pick = (i) => {
+    document.querySelectorAll("#sheet-tabs button").forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.i === i)));
+    $("#sheet").innerHTML = sheetHTML(sheets[i]);
+    $("#sheet").scrollTop = 0; $("#sheet").scrollLeft = 0;
+  };
+  $("#sheet-tabs").innerHTML = sheets.map((s, i) => `<button type="button" data-i="${i}" aria-pressed="false">${esc(s.name)}</button>`).join("");
+  document.querySelectorAll("#sheet-tabs button").forEach((b) => b.addEventListener("click", () => pick(+b.dataset.i)));
+  pick(0);
+}
+
+function setTab(name) {
+  document.querySelectorAll(".tabs button").forEach((t) => t.setAttribute("aria-selected", String(t.dataset.tab === name)));
+  $("#d-body").innerHTML = TABS[name](current);
+  if (name === "deck") {
+    showSlide(1);
+    $("#prev").addEventListener("click", () => showSlide(slide - 1));
+    $("#next").addEventListener("click", () => showSlide(slide + 1));
+    $("#fullscreen").addEventListener("click", toggleFullscreen);
+    document.querySelectorAll("#thumbs button").forEach((b) => b.addEventListener("click", () => showSlide(+b.dataset.slide)));
+  }
+  if (name === "model") showModel(current);
+}
+
+// One-sentence statement of the trade: direction, entry, target, and the exit if closed
+const dek = (p) => {
+  const open = `${p.side === "long" ? "Long" : "Short"} from ${usd(p.ref)} on ${nice(p.date)}, with a ${p.ptLabel} price target of ${usd(p.pt)}.`;
+  return p.closed ? open + ` Closed at ${usd(p.closed.price)} on ${nice(p.closed.date)} for a ${pct(sincePitch(p)).replace("+", "")} return.` : open;
+};
+
+function renderDetail(p) {
+  current = p;
+  const m = MARKET[p.ticker], s = sincePitch(p);
+  $("#crumb-t").textContent = p.ticker;
+  // Sidebar rows: label, value, optional footnote
+  const fact = (k, v, note = "", cls = "") => `<div><dt>${k}</dt><dd class="${cls}">${v}${note ? `<small>${note}</small>` : ""}</dd></div>`;
+  const rows = p.closed ? [
+    fact("Entry", usd(p.ref), p.refNote || nice(p.date)),
+    fact("Exit", usd(p.closed.price), nice(p.closed.date)),
+    fact("Realized", pct(s), m.days + " trading days", sign(s)),
+    fact("Held", daysBetween(p.date, p.closed.date) + " days"),
+    fact("Target", `<span style="color:var(--target)">${usd(p.pt)}</span>`, p.ptLabel + ", not reached"),
+    fact("Sharpe", sharpeStr(p), m.sharpe == null ? "after 30 days" : m.vol + "% ann. vol")
+  ] : [
+    fact("Pitch price", usd(p.ref), nice(p.date)),
+    fact("Current", usd(m.last), AS_OF),
+    fact("Since pitch", pct(s), m.days + " trading days", sign(s)),
+    fact("Target", `<span style="color:var(--target)">${usd(p.pt)}</span>`, p.ptLabel + (p.irr ? ", " + p.irr.toFixed(1) + "% IRR" : "")),
+    fact("To target", pct(toTarget(p)), "from current"),
+    fact("Sharpe", sharpeStr(p), m.sharpe == null ? "after 30 days" : m.vol + "% ann. vol")
+  ];
+  $("#d-head").innerHTML = `<h1>${p.name}</h1><p class="dek">${dek(p)}</p>`;
+  const side = `
+    <div class="side-id"><span class="logo"><img src="logos/${p.ticker}.webp" alt="" width="160" height="160"></span>
+      <div><span class="tick">${p.ticker}</span><small>${p.exchange} &middot; <span class="dir-${p.side}">${p.closed ? "Closed " + p.side : p.side === "long" ? "Long" : "Short"}</span></small></div></div>
+    <dl class="facts-list">${rows.join("")}</dl>
+    <div class="side-links">${driveLink(DRIVE[p.ticker].model, "Full model (Google Drive)")}${driveLink(DRIVE[p.ticker].deck, "Deck (Google Drive)")}</div>`;
+  $("#d-side").innerHTML = side;
+  setTab("summary");
+}
+
+/* ---------- Hash router: #home, #pitches, #hood, #nclh, #nbis ---------- */
+function route() {
+  const key = (location.hash.replace("#", "") || "home").toLowerCase();
+  const pitch = PITCHES.find((p) => slug(p) === key);
+  const page = pitch ? "detail" : (key === "pitches" ? "pitches" : "home");
+  document.querySelectorAll(".page").forEach((el) => { el.hidden = el.id !== "page-" + page; });
+  if (pitch) renderDetail(pitch);
+  const navKey = page === "detail" ? "pitches" : page;
+  document.querySelectorAll("[data-nav]").forEach((a) => {
+    if (a.dataset.nav === navKey) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+  window.scrollTo(0, 0);
+}
+
+/* ---------- Wire up ---------- */
+renderTables();
+route();
+addEventListener("hashchange", route);
+document.querySelectorAll(".tabs button").forEach((t) => t.addEventListener("click", () => setTab(t.dataset.tab)));
+// Arrow keys page through the deck while the Deck tab is open
+document.addEventListener("keydown", (e) => {
+  if (!$("#slide-img")) return;
+  if (e.key === "ArrowRight") showSlide(slide + 1);
+  if (e.key === "ArrowLeft") showSlide(slide - 1);
+});
+
+// Copy email; if the clipboard is blocked, the address stays visible to select by hand
+$("#copy-email").addEventListener("click", async (e) => {
+  const btn = e.currentTarget;
+  try { await navigator.clipboard.writeText("aatreyo@berkeley.edu"); btn.textContent = "Copied"; }
+  catch (err) { btn.textContent = "Select the address to copy"; }
+  setTimeout(() => { btn.textContent = "Copy email"; }, 1800);
+});
+</script>
+
+</body></html>
